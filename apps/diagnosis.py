@@ -31,9 +31,22 @@ llm_config = {
             "api_key": os.getenv("GROQ_API_KEY"),
             "api_type": "groq",
             "temperature": 0.0,
+            "price": [0, 0],
         }
     ]
 }
+
+# llm_config = {
+#     "config_list": [
+#         {
+#             "model": "NotRequired",
+#             "api_key": "NotRequired",
+#             "base_url": "http://127.0.0.1:4000",
+#             "price": [0, 0],
+#         }
+#     ],
+#     "cache_seed": None,
+# }
 
 def user_agent(human_input_mode):
     return autogen.UserProxyAgent(

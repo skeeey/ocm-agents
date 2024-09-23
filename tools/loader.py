@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import os
+from jira import JIRA
 # from unstructured.partition.md import optional_decode
 from unstructured.partition.md import partition_md
 
@@ -22,6 +23,15 @@ def load_markdowns(dir, exclude_list=None):
     all = "\n\n---\n\nRunbook: ".join(docs)
     return "Runbook: " + all
 
+def load_jira(server_url, api_token, query):
+    options = {
+        "server": server_url,
+        "headers": {"Authorization": f"Bearer {api_token}"},
+    }
+    
+    jira = JIRA(options=options)
+
+    return jira.search_issues(query)
 
 def _list_files(start_path, exclude_list, suffix=".md"):
     file_list = []
