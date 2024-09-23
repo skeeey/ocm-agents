@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import click
 import os
 from dotenv import load_dotenv
 from groq import Groq
@@ -7,11 +8,13 @@ from tools.loader import load_jira
 
 load_dotenv()
 
-if __name__ == "__main__":
+@click.command()
+@click.argument("issue")
+def main(issue):
     server=os.getenv("JIRA_SERVER")
     token=os.getenv("JIRA_TOKEN")
     
-    issues = load_jira(server_url=server, api_token=token, query="key=ACM-12962")
+    issues = load_jira(server_url=server, api_token=token, query=f"key={issue}")
     
     all_comments = ""
     for issue in issues:
@@ -51,3 +54,6 @@ Here is the content
     )
 
     print(chat_completion.choices[0].message.content)
+
+if __name__ == "__main__":
+    main()
