@@ -18,7 +18,7 @@ LOG_FORMAT = "%(levelname)s: [%(asctime)s, %(module)s, line:%(lineno)d] %(messag
 
 load_dotenv()
 
-logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, datefmt=LOG_DATE_FORMAT)
+logging.basicConfig(level=logging.ERROR, format=LOG_FORMAT, datefmt=LOG_DATE_FORMAT)
 logger = logging.getLogger(__name__)
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -94,8 +94,8 @@ def selection(user, planner, analyst, executor, human_input_mode="NEVER"):
     def custom_speaker_selection_func(last_speaker, groupchat):
         content = groupchat.messages[-1]["content"]
         if "TERMINATE" in content:
-                print(content)
-                return None
+            # print(content)
+            return None
 
         if last_speaker == user:
             return planner
@@ -114,7 +114,7 @@ def selection(user, planner, analyst, executor, human_input_mode="NEVER"):
 def is_termination_message(msg):
     return msg.get("content") is not None and (msg.get("content", "").rstrip().endswith("TERMINATE"))
 
-def wait(human_input_mode, wait_time=5):
+def wait(human_input_mode, wait_time=10):
      if human_input_mode == "NEVER":
         time.sleep(wait_time)
 
@@ -122,15 +122,16 @@ def wait(human_input_mode, wait_time=5):
 @click.option("--runbooks", required=True, type=click.Path(file_okay=True, dir_okay=True, exists=True), help="the path of runbooks")
 @click.option("--hub-mg", required=True, type=click.Path(file_okay=False, dir_okay=True, exists=True), help="the path of hub must-gather")
 @click.option("--cluster-mg", type=click.Path(file_okay=False, dir_okay=True, exists=True), help="the path of managed cluster must-gather")
-@click.option("--enable-human-input", is_flag=True, default=False, help="enable human input mode")
+@click.option("--debug", is_flag=True, default=False, help="enable debug mode")
+@click.option("--silent", is_flag=True, default=False, help="silent the agents")
 @click.argument("issue")
-def main(runbooks, hub_mg, cluster_mg, enable_human_input, issue):
-    human_input_mode="NEVER"
+def main(runbooks, hub_mg, cluster_mg, debug, silent, issue):
+    human_input_mode = "NEVER"
 
     if cluster_mg is None:
         cluster_mg = hub_mg
 
-    if enable_human_input is True:
+    if debug is True:
         human_input_mode="ALWAYS"
     
     logger.debug("runbooks=%s,hub-must-gather=%s,managed-cluster-must-gather=%s", runbooks, hub_mg, cluster_mg)
@@ -147,6 +148,7 @@ def main(runbooks, hub_mg, cluster_mg, enable_human_input, issue):
     
     logger.debug(llm_config)
     logger.debug(planner_prompt)
+    logger.debug(analyst_prompt)
 
     user = user_agent(human_input_mode)
     planner = planner_agent(llm_config, planner_prompt, human_input_mode)
@@ -165,7 +167,7 @@ def main(runbooks, hub_mg, cluster_mg, enable_human_input, issue):
         send_introductions=True,
     )
     user.initiate_chat(
-        autogen.GroupChatManager(groupchat=group_chat, llm_config=llm_config, silent=False),
+        autogen.GroupChatManager(groupchat=group_chat, llm_config=llm_config, silent=silent),
         message=issue,
     )
 

@@ -32,7 +32,7 @@ def main(issue):
         messages=[
             {
                 "role": "system",
-                "content": "you are a Red Hat Advanced Cluster Management for Kubernetes (ACM or RHACM) assistant."
+                "content": "You are a Red Hat Advanced Cluster Management for Kubernetes (ACM or RHACM) assistant."
             },
             {
                 "role": "user",
