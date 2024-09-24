@@ -25,7 +25,7 @@ python -m apps.diagnosis --runbooks=<your-runbooks-dir> \
 
 ### How does this work
 
-![flow](./flow.png)
+![diagnosis-flow](./flow.png)
 
 ### Runbook Guideline
 
