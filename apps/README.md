@@ -25,11 +25,10 @@ python -m apps.diagnosis --runbooks=<your-runbooks-dir> \
 
 ### How does this work
 
-Inspired by [Plan-and-Execute](https://langchain-ai.github.io/langgraph/tutorials/plan-and-execute/plan-and-execute/) pattern
-
 ![diagnosis-flow](./diagnosis-flow.png)
 
 Refers to
+- https://langchain-ai.github.io/langgraph/tutorials/plan-and-execute/plan-and-execute/
 - https://microsoft.github.io/autogen/
 - https://github.com/gmeghnag/omc
 
