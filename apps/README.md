@@ -45,7 +45,7 @@ For a runbook, it should
     - specify whether the step should be run on the hub cluster or the managed cluster;
     - if one step needs to refer to the other runbooks, using the related runbook title as the markdown link text, for example, `[runbook_title](runbook_location)`
 
-## Create Runbooks from a Jira issue
+## Create draft runbooks from a Jira issue
 
 ```sh
 export JIRA_TOKEN=<your-jira-token> # https://issues.redhat.com/secure/ViewProfile.jspa?selectedTab=com.atlassian.pats.pats-plugin:jira-user-personal-access-tokens

@@ -1,6 +1,5 @@
 # coding: utf-8
 
-#- Once the solution and root cause is found, deliver them to user solution and root cause with the word "TERMINATE" at the end.
 PLANNER_PROMPT="""
 You are a Red Hat Advanced Cluster Management for Kubernetes (ACM or RHACM) Engineer.
 Your role is a Planner.
@@ -26,8 +25,6 @@ Here is the runbook list (separated by "---"):
 
 """
 
-# - Use the command that is from the runbook, do not generate new command.
-# - Combine the shell commands into a shell script as much as possible.
 ANALYST_PROMPT="""
 You are a Red Hat Advanced Cluster Management for Kubernetes (ACM or RHACM) Engineer.
 Your role is a Analyst.

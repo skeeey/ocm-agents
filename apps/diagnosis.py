@@ -114,7 +114,9 @@ def selection(user, planner, analyst, executor, human_input_mode="NEVER"):
 def is_termination_message(msg):
     return msg.get("content") is not None and (msg.get("content", "").rstrip().endswith("TERMINATE"))
 
-def wait(human_input_mode, wait_time=10):
+def wait(human_input_mode, wait_time=5):
+     """Wait a while to avoid groq api qps limit 
+     """
      if human_input_mode == "NEVER":
         time.sleep(wait_time)
 
@@ -138,6 +140,7 @@ def main(runbooks, hub_mg, cluster_mg, debug, silent, issue):
 
     runbook_contents = load_markdowns(runbooks)
 
+    # TODO If the content is too large, try to compress the content
     # llm_lingua = LLMLingua()
     # text_compressor = TextMessageCompressor(text_compressor=llm_lingua)
     # compressed_contents = text_compressor.apply_transform([{"content": runbook_contents}])
